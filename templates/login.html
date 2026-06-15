@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card small">
+  <h1>Iniciar sesión</h1>
+  <form method="post">
+    <label>Usuario</label>
+    <input name="username" required>
+    <label>Contraseña</label>
+    <input type="password" name="password" required>
+    <button>Entrar</button>
+  </form>
+  <p>Admin inicial: <code>admin</code> / <code>admin123</code>. Cámbialo si lo subes a internet.</p>
+  <p>¿No tienes cuenta? <a href="{{ url_for('register') }}">Regístrate</a></p>
+</section>
+{% endblock %}

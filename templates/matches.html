@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Partidos y predicciones</h1>
+<p class="muted">Horas en España peninsular. Las predicciones se bloquean al llegar la hora de inicio del partido.</p>
+<div class="grid">
+{% for m in matches %}
+  <article class="match card">
+    <div class="match-head">
+      <strong>#{{ m.match_no }} · {{ m.stage }}{% if m.group_name %} · Grupo {{ m.group_name }}{% endif %}</strong>
+      <span class="badge {{ m.status }}">{{ m.status }}</span>
+    </div>
+    <h2>{{ m.home_team }} <span>vs</span> {{ m.away_team }}</h2>
+    <p class="muted">{{ m.kickoff }} · {{ m.venue }}</p>
+    {% if m.home_goals is not none %}
+      <p class="result">Resultado: <b>{{ m.home_goals }} - {{ m.away_goals }}</b></p>
+    {% endif %}
+    {% if m.pred_home is not none %}
+      <p>Tu porra: <b>{{ m.pred_home }} - {{ m.pred_away }}</b> · puntos: <b>{{ m.points }}</b></p>
+    {% else %}
+      <p class="muted">Aún no has hecho porra.</p>
+    {% endif %}
+    {% if not is_locked(m.kickoff) %}
+      <form method="post" class="inline-form">
+        <input type="hidden" name="match_id" value="{{ m.id }}">
+        <input type="number" name="pred_home" min="0" max="30" value="{{ m.pred_home if m.pred_home is not none else 0 }}" required>
+        <span>-</span>
+        <input type="number" name="pred_away" min="0" max="30" value="{{ m.pred_away if m.pred_away is not none else 0 }}" required>
+        <button>Guardar</button>
+      </form>
+    {% else %}
+      <p class="locked">🔒 Partido bloqueado</p>
+    {% endif %}
+  </article>
+{% endfor %}
+</div>
+{% endblock %}

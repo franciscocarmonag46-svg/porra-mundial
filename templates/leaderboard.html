@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Clasificación</h1>
+<table>
+  <thead>
+    <tr><th>#</th><th>Usuario</th><th>Puntos</th><th>Exactos</th><th>Signos</th><th>Predicciones</th></tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ r.username }}</td>
+      <td><b>{{ r.total_points }}</b></td>
+      <td>{{ r.exacts or 0 }}</td>
+      <td>{{ r.signs or 0 }}</td>
+      <td>{{ r.predictions_count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

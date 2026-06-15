@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Panel de administrador</h1>
+<p class="muted">Introduce resultados reales. Al guardar, se recalculan automáticamente los puntos de todas las predicciones de ese partido.</p>
+<table class="admin-table">
+  <thead><tr><th>Partido</th><th>Fecha</th><th>Resultado</th><th>Acción</th></tr></thead>
+  <tbody>
+  {% for m in matches %}
+    <tr>
+      <td>#{{ m.match_no }} · {{ m.home_team }} vs {{ m.away_team }}<br><span class="muted">{{ m.stage }}{% if m.group_name %} · Grupo {{ m.group_name }}{% endif %}</span></td>
+      <td>{{ m.kickoff }}</td>
+      <td>
+        <form method="post" class="inline-form">
+          <input type="hidden" name="match_id" value="{{ m.id }}">
+          <input type="number" name="home_goals" min="0" max="30" value="{{ m.home_goals if m.home_goals is not none else '' }}" placeholder="Local">
+          <span>-</span>
+          <input type="number" name="away_goals" min="0" max="30" value="{{ m.away_goals if m.away_goals is not none else '' }}" placeholder="Visitante">
+      </td>
+      <td><button>Guardar</button></form></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
